@@ -9,6 +9,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.mywebservice.courses.CourseDetails;
+import com.mywebservice.courses.DeleteCourseDetailsRequest;
+import com.mywebservice.courses.DeleteCourseDetailsResponse;
 import com.mywebservice.courses.GetAllCourseDetailsRequest;
 import com.mywebservice.courses.GetAllCourseDetailsResponse;
 import com.mywebservice.courses.GetCourseDetailsRequest;
@@ -67,6 +69,16 @@ public class CourseDetailsEndpoint {
 		
 		List<Course> courses = service.findAll();
 		return mapAllCourse(courses);
+	}
+	
+	@PayloadRoot(namespace = "http://mywebservice.com/courses", localPart = "DeleteCourseDetailsRequest")	
+	@ResponsePayload
+	public DeleteCourseDetailsResponse processDeleteCourseDetailsRequest(@RequestPayload DeleteCourseDetailsRequest request) {
+		DeleteCourseDetailsResponse response = new DeleteCourseDetailsResponse();
+		
+		int status = service.deleteById(request.getId());
+		response.setStatus(status);
+		return response;
 	}
 	
 }
